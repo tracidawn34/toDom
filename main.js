@@ -58,7 +58,7 @@ function printAll(arr){
     printTodo(obj)
   }
 }
-
+printAll(todos)
 
 // Now here in the global code, call the above function, so our todos array gets printed out on page load (which is when global code is run). This is the only time we're calling a function ourselves; the rest is event listeners and helper functions that run when the user interacts with the DOM!
 
@@ -66,11 +66,18 @@ function printAll(arr){
 
 // A function that clears all todos from the DOM. This is a great helper function for refreshing our todos.
 // Test it in the console and see if your list disappears!
+function clearList(){
+  orderedList.innerHTML = ''
+  todos.length = 0
 
+}
 
 
 // A function that refreshes our page by calling each of the two above functions. Since printing all todos onto the DOM is based on our todos array, if we make a change to our todos array, we can simply call this function, which will make our DOM match our todos array by simply clearing the page and repopulating it according to our todos' new state.
-
+function clearAll(){
+  clearList()
+  printAll(todos);
+}
 
 
 /*
@@ -81,13 +88,25 @@ Let's wire it all together. Add an event listener for the add todo button that w
 4. Pass the object as well to your adding todos function to put it on the DOM.
 5. Stretch goal: remove all text from the input box. Try adding multiple todos without this first, you'll see why we should do it!
 */
-
+const submitted = document.querySelector('#todoInput')
+const newButton = document.querySelector('.add-todo')
+newButton.addEventListener('click', ()=>{
+      let newTodo = {
+        text: `${submitted.value}`,
+        complete: false,
+        priority: 2,
+      }
+      addListItem(newTodo)
+      printTodo(newTodo)
+})
 
 
 /* 
  Run over to the HTML and add a button for CLEAR TODOS or REMOVE TODOS or some such, giving it a class or id of your choice. Now let's wire up that button, giving it a click event listener that clears all todos from the DOM (we have a function for that!) and removes all todo objects from the todos array as well.
 */
-
+document.querySelector('#clear').addEventListener('click', ()=>{
+  clearAll()
+})
 
 
 // And you're DONE with the best interface we've written yet for a todos app!
